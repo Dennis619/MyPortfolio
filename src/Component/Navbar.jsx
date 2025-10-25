@@ -74,7 +74,7 @@ const Navbar = () => {
         ease: "power2.inOut",
       });
     },
-    { dependencies: isNavVisible }
+    { dependencies: [isNavVisible] }
   );
 
   // Active section detection
@@ -98,7 +98,7 @@ const Navbar = () => {
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [navContent]);
 
   // Audio toggle with smooth animation
   const toggleAudioIndicator = () => {
@@ -114,54 +114,74 @@ const Navbar = () => {
   };
 
   useEffect(() => {
-    if (isAudioPlaying) {
-      audioElementRef.current.play();
-    } else {
-      audioElementRef.current.pause();
+    if (audioElementRef.current) {
+      if (isAudioPlaying) {
+        audioElementRef.current.play().catch((error) => {
+          console.log("Audio play failed:", error);
+        });
+      } else {
+        audioElementRef.current.pause();
+      }
     }
   }, [isAudioPlaying]);
 
-  // Mobile menu animation
+  // Mobile menu animation with improved state management
   const toggleMobileMenu = () => {
-    setMobileMenuOpen((prev) => !prev);
-
     if (!mobileMenuOpen) {
-      gsap.fromTo(
-        mobileMenuRef.current,
-        {
+      // Opening menu
+      setMobileMenuOpen(true);
+
+      // Use timeout to ensure DOM is updated
+      setTimeout(() => {
+        if (mobileMenuRef.current) {
+          gsap.fromTo(
+            mobileMenuRef.current,
+            {
+              clipPath: "circle(0% at 100% 0%)",
+              opacity: 0,
+            },
+            {
+              clipPath: "circle(150% at 100% 0%)",
+              opacity: 1,
+              duration: 0.5,
+              ease: "power3.out",
+            }
+          );
+
+          const navItems =
+            mobileMenuRef.current.querySelectorAll(".mobile-nav-item");
+          gsap.fromTo(
+            navItems,
+            { opacity: 0, x: 50 },
+            {
+              opacity: 1,
+              x: 0,
+              stagger: 0.1,
+              duration: 0.4,
+              delay: 0.2,
+            }
+          );
+        }
+      }, 10);
+    } else {
+      // Closing menu
+      if (mobileMenuRef.current) {
+        gsap.to(mobileMenuRef.current, {
           clipPath: "circle(0% at 100% 0%)",
           opacity: 0,
-        },
-        {
-          clipPath: "circle(150% at 100% 0%)",
-          opacity: 1,
-          duration: 0.5,
-          ease: "power3.out",
-        }
-      );
-
-      gsap.fromTo(
-        mobileMenuRef.current.querySelectorAll(".mobile-nav-item"),
-        { opacity: 0, x: 50 },
-        {
-          opacity: 1,
-          x: 0,
-          stagger: 0.1,
           duration: 0.4,
-          delay: 0.2,
-        }
-      );
-    } else {
-      gsap.to(mobileMenuRef.current, {
-        clipPath: "circle(0% at 100% 0%)",
-        opacity: 0,
-        duration: 0.4,
-        ease: "power3.in",
-      });
+          ease: "power3.in",
+          onComplete: () => {
+            setMobileMenuOpen(false);
+          },
+        });
+      } else {
+        setMobileMenuOpen(false);
+      }
     }
   };
 
-  // Smooth scroll to section
+  // Close mobile menu when clicking on a link
   const handleNavClick = (e, link, id) => {
     e.preventDefault();
 
@@ -176,8 +196,35 @@ const Navbar = () => {
       }
     }
 
-    setMobileMenuOpen(false);
+    // Close mobile menu with animation
+    if (mobileMenuOpen) {
+      if (mobileMenuRef.current) {
+        gsap.to(mobileMenuRef.current, {
+          clipPath: "circle(0% at 100% 0%)",
+          opacity: 0,
+          duration: 0.3,
+          ease: "power3.in",
+          onComplete: () => {
+            setMobileMenuOpen(false);
+          },
+        });
+      } else {
+        setMobileMenuOpen(false);
+      }
+    }
   };
+
+  // Close mobile menu on escape key
+  useEffect(() => {
+    const handleEscape = (e) => {
+      if (e.key === "Escape" && mobileMenuOpen) {
+        toggleMobileMenu();
+      }
+    };
+
+    document.addEventListener("keydown", handleEscape);
+    return () => document.removeEventListener("keydown", handleEscape);
+  }, [mobileMenuOpen]);
 
   return (
     <div
@@ -263,7 +310,9 @@ const Navbar = () => {
               {/* Mobile Hamburger */}
               <button
                 onClick={toggleMobileMenu}
-                className="md:hidden relative w-10 h-10 flex items-center justify-center bg-white/5 backdrop-blur-sm rounded-full border border-white/10 hover:border-blue-500/50 transition-all duration-300"
+                className="z-50 md:hidden relative w-10 h-10 flex items-center justify-center bg-white/5 backdrop-blur-sm rounded-full border border-white/10 hover:border-blue-500/50 transition-all duration-300"
+                aria-label="Toggle menu"
+                aria-expanded={mobileMenuOpen}
               >
                 {mobileMenuOpen ? (
                   <HiX className="text-2xl text-white" />
@@ -283,13 +332,13 @@ const Navbar = () => {
           className="fixed inset-0 bg-gradient-to-br from-gray-900 via-black to-gray-900 z-40 md:hidden"
           style={{ clipPath: "circle(0% at 100% 0%)" }}
         >
-          <div className="flex flex-col items-center justify-center h-full gap-6 px-8">
+          <div className="flex flex-col items-center justify-center gap-6 pt-5 px-8">
             {navContent.map((item, index) => (
               <a
                 key={index}
                 href={item.title === "Home" ? item.link : `#${item.link}`}
                 onClick={(e) => handleNavClick(e, item.link, item.id)}
-                className="mobile-nav-item text-3xl font-bold text-white hover:text-transparent hover:bg-gradient-to-r hover:from-blue-400 hover:to-purple-400 hover:bg-clip-text transition-all duration-300 transform hover:scale-110"
+                className="mobile-nav-item text-base font-bold text-white hover:text-transparent hover:bg-gradient-to-r hover:from-blue-400 hover:to-purple-400 hover:bg-clip-text transition-all duration-300 transform hover:scale-110"
               >
                 {item.title}
               </a>
@@ -297,8 +346,8 @@ const Navbar = () => {
           </div>
 
           {/* Decorative elements */}
-          <div className="absolute top-20 left-20 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-20 right-20 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl"></div>
+          {/* <div className="absolute top-20 left-20 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-20 right-20 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl"></div> */}
         </div>
       )}
     </div>
