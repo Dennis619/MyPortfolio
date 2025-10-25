@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { HiOutlineMenu, HiX } from "react-icons/hi";
 import { useWindowScroll } from "react-use";
 import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 
 const Navbar = () => {
   const navContainerRef = useRef(null);
@@ -30,7 +31,7 @@ const Navbar = () => {
   ];
 
   // Initial page load animation
-  useEffect(() => {
+  useGSAP(() => {
     const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
 
     tl.fromTo(
@@ -64,14 +65,17 @@ const Navbar = () => {
     setLastScrollY(currentScrollY);
   }, [currentScrollY]);
 
-  useEffect(() => {
-    gsap.to(navContainerRef.current, {
-      y: isNavVisible ? 0 : -120,
-      opacity: isNavVisible ? 1 : 0,
-      duration: 0.4,
-      ease: "power2.inOut",
-    });
-  }, [isNavVisible]);
+  useGSAP(
+    () => {
+      gsap.to(navContainerRef.current, {
+        y: isNavVisible ? 0 : -120,
+        opacity: isNavVisible ? 1 : 0,
+        duration: 0.4,
+        ease: "power2.inOut",
+      });
+    },
+    { dependencies: isNavVisible }
+  );
 
   // Active section detection
   useEffect(() => {
@@ -228,7 +232,7 @@ const Navbar = () => {
             </div>
 
             {/* Right side actions */}
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-4 pr-5 md:pr-0">
               {/* Audio Toggle */}
               <button
                 ref={audioButtonRef}
@@ -239,7 +243,7 @@ const Navbar = () => {
                 <audio
                   ref={audioElementRef}
                   className="hidden"
-                  src="/audio/loop.mp3"
+                  src={`${import.meta.env.BASE_URL}/audio/loop.mp3`}
                   loop
                 />
                 {[1, 2, 3, 4].map((bar) => (

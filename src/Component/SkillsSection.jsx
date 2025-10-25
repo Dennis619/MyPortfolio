@@ -3,6 +3,7 @@ import gsap from "gsap";
 import AnimatedTitle from "./AnimatedTitle";
 import { ScrollTrigger } from "gsap/all";
 import { skillsData } from "../data";
+import { useGSAP } from "@gsap/react";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -43,7 +44,7 @@ const SkillsSection = () => {
   const filteredSkills = getFilteredSkills();
 
   // Background color change animation
-  useEffect(() => {
+  useGSAP(() => {
     const section = sectionRef.current;
 
     ScrollTrigger.create({
@@ -65,82 +66,87 @@ const SkillsSection = () => {
         });
       },
     });
-
-    return () => ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
   }, []);
 
   // Initial entrance animations
-  useEffect(() => {
-    gsap.fromTo(
-      subtitleRef.current,
-      { opacity: 0, y: -30 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 60%",
-          toggleActions: "play none none reverse",
-        },
-      }
-    );
+  useGSAP(
+    () => {
+      // Subtitle animation
+      gsap.fromTo(
+        subtitleRef.current,
+        { opacity: 0, y: -30 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 60%",
+            toggleActions: "play none none reverse",
+          },
+        }
+      );
 
-    gsap.fromTo(
-      titleRef.current,
-      { opacity: 0, scale: 0.8 },
-      {
-        opacity: 1,
-        scale: 1,
-        duration: 1,
-        delay: 0.2,
-        ease: "back.out(1.4)",
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 60%",
-          toggleActions: "play none none reverse",
-        },
-      }
-    );
+      // Title animation
+      gsap.fromTo(
+        titleRef.current,
+        { opacity: 0, scale: 0.8 },
+        {
+          opacity: 1,
+          scale: 1,
+          duration: 1,
+          delay: 0.2,
+          ease: "back.out(1.4)",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 60%",
+            toggleActions: "play none none reverse",
+          },
+        }
+      );
 
-    gsap.fromTo(
-      categoryRefs.current,
-      { opacity: 0, y: 30 },
-      {
-        opacity: 1,
-        y: 0,
-        stagger: 0.1,
-        duration: 0.6,
-        delay: 0.5,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 50%",
-          toggleActions: "play none none reverse",
-        },
-      }
-    );
+      // Categories animation
+      gsap.fromTo(
+        categoryRefs.current,
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1,
+          y: 0,
+          stagger: 0.1,
+          duration: 0.6,
+          delay: 0.5,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 50%",
+            toggleActions: "play none none reverse",
+          },
+        }
+      );
 
-    gsap.fromTo(
-      skillRefs.current,
-      { opacity: 0, x: -50, scale: 0.9 },
-      {
-        opacity: 1,
-        x: 0,
-        scale: 1,
-        stagger: 0.05,
-        duration: 0.6,
-        delay: 0.8,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 40%",
-          toggleActions: "play none none reverse",
-        },
-      }
-    );
-  }, []);
+      // Skills animation
+      gsap.fromTo(
+        skillRefs.current,
+        { opacity: 0, x: -50, scale: 0.9 },
+        {
+          opacity: 1,
+          x: 0,
+          scale: 1,
+          stagger: 0.05,
+          duration: 0.6,
+          delay: 0.8,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 40%",
+            toggleActions: "play none none reverse",
+          },
+        }
+      );
+    },
+    { scope: sectionRef } // ✅ Scoped animations for auto-cleanup
+  );
 
   // Category change animation
   const handleCategoryChange = (categoryId) => {
@@ -199,7 +205,7 @@ const SkillsSection = () => {
             containerClass="text-center uppercase !text-white"
           />
         </div>
-        <p className="mt-6 text-gray-400 text-lg">
+        <p className="mt-6 text-gray-400 text-lg mx-3 md:mx-auto">
           A comprehensive overview of my technical skills and proficiency levels
           across different domains
         </p>

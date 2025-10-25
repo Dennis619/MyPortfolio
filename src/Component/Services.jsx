@@ -102,69 +102,69 @@ const Services = () => {
   }, []);
 
   // Expand/collapse animation
-  useEffect(() => {
-    if (clickedIndex !== null) {
-      const card = cardsRef.current[clickedIndex];
-      const tl = gsap.timeline({ defaults: { ease: "power3.inOut" } });
+  useGSAP(
+    () => {
+      if (clickedIndex !== null) {
+        const card = cardsRef.current[clickedIndex];
+        const tl = gsap.timeline({ defaults: { ease: "power3.inOut" } });
 
-      // Collapse other cards
-      cardsRef.current.forEach((otherCard, i) => {
-        if (i !== clickedIndex && otherCard) {
-          gsap.to(otherCard, {
-            opacity: 0.4,
-            scale: 0.95,
-            duration: 0.3,
-          });
-        }
-      });
+        // Collapse other cards
+        cardsRef.current.forEach((otherCard, i) => {
+          if (i !== clickedIndex && otherCard) {
+            gsap.to(otherCard, {
+              opacity: 0.4,
+              scale: 0.95,
+              duration: 0.3,
+            });
+          }
+        });
 
-      // Expand selected card
-      tl.to(card, {
-        scale: 1.02,
-        duration: 0.4,
-      })
-        .to(
-          card.querySelector(".service-content"),
-          {
-            height: "auto",
-            opacity: 1,
-            duration: 0.5,
-            ease: "power2.out",
-          },
-          "-=0.2"
-        )
-        .fromTo(
-          card.querySelectorAll(".service-details > *"),
-          {
-            opacity: 0,
-            y: 20,
-          },
-          {
-            opacity: 1,
-            y: 0,
-            stagger: 0.1,
-            duration: 0.4,
-          },
-          "-=0.3"
-        );
-    } else {
-      // Reset all cards
-      cardsRef.current.forEach((card) => {
-        if (card) {
-          gsap.to(card, {
-            opacity: 1,
-            scale: 1,
-            duration: 0.3,
-          });
-          gsap.to(card.querySelector(".service-content"), {
-            height: 0,
-            opacity: 0,
-            duration: 0.3,
-          });
-        }
-      });
-    }
-  }, [clickedIndex]);
+        // Expand selected card
+        tl.to(card, {
+          scale: 1.02,
+          duration: 0.4,
+        })
+          .to(
+            card.querySelector(".service-content"),
+            {
+              height: "auto",
+              opacity: 1,
+              duration: 0.5,
+              ease: "power2.out",
+            },
+            "-=0.2"
+          )
+          .fromTo(
+            card.querySelectorAll(".service-details > *"),
+            { opacity: 0, y: 20 },
+            {
+              opacity: 1,
+              y: 0,
+              stagger: 0.1,
+              duration: 0.4,
+            },
+            "-=0.3"
+          );
+      } else {
+        // Reset all cards
+        cardsRef.current.forEach((card) => {
+          if (card) {
+            gsap.to(card, {
+              opacity: 1,
+              scale: 1,
+              duration: 0.3,
+            });
+            gsap.to(card.querySelector(".service-content"), {
+              height: 0,
+              opacity: 0,
+              duration: 0.3,
+            });
+          }
+        });
+      }
+    },
+    { dependencies: [clickedIndex] }
+  );
 
   return (
     <section
@@ -195,7 +195,7 @@ const Services = () => {
             containerClass="text-center uppercase"
           />
         </div>
-        <p className="mt-6 text-gray-400 text-lg max-w-2xl mx-auto">
+        <p className="mt-6 text-gray-400 text-lg max-w-2xl mx-3 md:mx-auto">
           Comprehensive solutions tailored to bring your vision to life with
           cutting-edge technology and creative expertise
         </p>

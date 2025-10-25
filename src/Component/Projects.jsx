@@ -158,7 +158,7 @@ const Projects = () => {
             containerClass="text-center uppercase"
           />
         </div>
-        <p className="mt-6 text-gray-400 text-lg max-w-2xl mx-auto">
+        <p className="mt-6 text-gray-400 text-lg max-w-2xl mx-3 md:mx-auto">
           A showcase of my web applications, blockchain projects, and game
           development work
         </p>
@@ -209,6 +209,7 @@ const Projects = () => {
               <img
                 src={`${import.meta.env.BASE_URL}${project.image}`}
                 alt={project.title}
+                loading="lazy"
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 onError={(e) => {
                   e.target.src =

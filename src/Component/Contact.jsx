@@ -3,6 +3,7 @@ import { BsFillSendFill } from "react-icons/bs";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import emailjs from "@emailjs/browser";
+import { useGSAP } from "@gsap/react";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -33,8 +34,8 @@ const Contact = () => {
   const formRef = useRef(null);
   const inputRefs = useRef([]);
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
+  useGSAP(
+    () => {
       // Header animation on scroll
       gsap.from(headerRef.current, {
         scrollTrigger: {
@@ -49,8 +50,7 @@ const Contact = () => {
         ease: "power3.out",
       });
 
-      // Title animation with stagger effect
-      const titleLines = titleRef.current.querySelectorAll("br");
+      // Title animation
       gsap.from(titleRef.current, {
         scrollTrigger: {
           trigger: sectionRef.current,
@@ -103,10 +103,9 @@ const Contact = () => {
         yoyo: true,
         ease: "sine.inOut",
       });
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
+    },
+    { scope: sectionRef }
+  );
 
   const handleChange = (e) => {
     const { name, value } = e.target;

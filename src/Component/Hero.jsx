@@ -238,11 +238,11 @@ const Hero = () => {
         <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-pink-500/10 opacity-50 animate-pulse pointer-events-none"></div>
 
         {/* Content Section */}
-        <div className="hero-content relative z-20 flex flex-col justify-center items-start px-8 md:px-16 lg:px-20 pt-20 md:pt-0">
+        <div className="hero-content relative z-20 flex flex-col justify-center items-start px-8 md:px-16 lg:px-20 pt-3 md:pt-0">
           {/* Greeting */}
           <h2
             ref={headingRef}
-            className="font-general text-lg md:text-xl tracking-wider mb-4 text-blue-400"
+            className="font-general text-lg md:text-xl tracking-wider md:mb-4 text-blue-400"
           >
             Hi, I'm
           </h2>
@@ -250,7 +250,7 @@ const Hero = () => {
           {/* Name */}
           <h1
             ref={nameRef}
-            className="font-maleha text-5xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight"
+            className="font-maleha text-5xl md:text-7xl lg:text-8xl font-bold md:mb-6 leading-tight"
           >
             <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
               {homeData[0].fName}
@@ -262,7 +262,7 @@ const Hero = () => {
           {/* Animated Titles */}
           <div
             ref={titleAnimatorRef}
-            className="relative overflow-hidden h-16 md:h-20 mb-8"
+            className="relative overflow-hidden h-16 md:h-20 md:mb-8"
           >
             <TitleAnimator titles={titles} />
           </div>
@@ -271,7 +271,7 @@ const Hero = () => {
           <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mb-8"></div>
 
           {/* Social Links */}
-          <div ref={socialLinksRef} className="flex gap-4 md:gap-5 mb-10">
+          <div ref={socialLinksRef} className="flex gap-4 md:gap-5 md:mb-10">
             {homeData[0].facebook && (
               <a
                 href={homeData[0].facebook}
@@ -351,6 +351,7 @@ const Hero = () => {
             className="absolute w-[90%] md:w-[85%] lg:w-[75%] object-contain z-0 opacity-80"
             src={`${import.meta.env.BASE_URL}blob.png`}
             alt="Background blob"
+            loading="lazy"
           />
 
           {/* Glowing effect behind image */}
@@ -365,6 +366,7 @@ const Hero = () => {
               src={imageSrc}
               alt="Profile"
               className="w-3/4 md:w-[85%] lg:w-[70%] object-contain mask-fade-bottom drop-shadow-2xl"
+              loading="lazy"
             />
           </div>
 
