@@ -229,7 +229,7 @@ const Services = () => {
         <div ref={titleRef}>
           <AnimatedTitle
             title="Services"
-            containerClass="text-center uppercase"
+            containerClass="text-center uppercase text-3xl md:text-5xl"
           />
         </div>
         <p className="mt-6 text-gray-400 text-lg max-w-2xl mx-3 md:mx-auto">
@@ -371,3 +371,4 @@ const Services = () => {
 };
 
 export default Services;
+
