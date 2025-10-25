@@ -1,0 +1,187 @@
+/*variables*/
+:root {
+  /*primary colors*/
+  --color-primary-black: #111111;
+  --color-primary-white: #fff;
+  --color-secondary: #0325ff;
+  --color-tertiary: #00e5ff;
+}
+
+/*global variables*/
+body {
+  color: var(--color-primary-white);
+  background-color: var(--color-primary-black);
+  margin: 0;
+}
+h1 {
+  font-size: 5rem;
+}
+h3 {
+  font-size: 3rem;
+}
+p {
+  font-size: 1.5rem;
+}
+a {
+  font-size: 1.5rem;
+}
+button {
+  padding: 10px 30px;
+  margin: 5px 0px;
+  background-color: var(--color-primary-white);
+  border-radius: 25px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  width: fit-content;
+  transition-duration: 0.8s;
+}
+button:hover {
+  background-color: var(--color-tertiary);
+}
+#root {
+  margin: 20px 50px;
+}
+
+/*---------NAV BAR --------------*/
+.navbar {
+  display: flex;
+  justify-content: center;
+  height: 50px;
+}
+.navbar ul {
+  display: flex;
+  position: fixed;
+  flex-direction: row;
+  gap: 20px;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  z-index: 1;
+}
+.navbar li {
+  padding: 10px 25px;
+  background-color: var(--color-primary-white);
+  text-align: center;
+  border-radius: 25px;
+  transition-duration: 0.8s;
+}
+.navbar li:hover {
+  background-color: var(--color-tertiary);
+}
+.navbar a {
+  text-decoration: none;
+  color: var(--color-primary-black);
+}
+
+/*---------HEADER --------------*/
+.Header {
+  height: 100vh;
+  display: grid;
+  margin-top: 5px;
+  grid-template-rows: 1fr;
+  grid-template-columns: 1fr 1fr;
+  justify-content: center;
+  align-items: center;
+  color: var(--color-primary-white);
+  height: 100vh;
+}
+.Header h1 {
+  margin-bottom: 8px;
+}
+.Header h3 {
+  color: var(--color-tertiary);
+  margin-top: 0px;
+  margin-bottom: 10px;
+}
+.Header .content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.Header .image .background-image {
+  width: "85%";
+  height: "85%";
+  object-fit: "cover";
+}
+.Header .image .background-image {
+  width: 85%;
+  height: 85%;
+  object-fit: cover;
+}
+.Header .image .overlay-image {
+  position: absolute;
+  top: 48%;
+  left: 40%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+}
+.social-media-icons {
+  display: flex;
+  gap: 10px;
+}
+.social-media-icons img {
+  border-radius: 5px;
+  height: 40px;
+  width: 40px;
+  padding: 3px;
+  background-color: var(--color-primary-white);
+}
+.social-media-icons img:hover {
+  background-color: var(--color-tertiary);
+}
+
+/*---------ABOUT --------------*/
+.about {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.about h1 {
+  margin-bottom: 10px;
+  text-align: center;
+}
+.about button {
+  align-self: center;
+}
+
+.Services {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.Services h1 {
+  text-align: center;
+  margin-bottom: 10px;
+}
+.ListOfServices {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.service {
+  display: flex;
+  flex-direction: column;
+  border: #00e5ff solid 1px;
+  border-radius: 20px;
+  transition-duration: 0.8s;
+}
+.service:hover {
+  background-color: var(--color-primary-white);
+  color: var(--color-primary-black);
+}
+.service h3 {
+  margin: 10px;
+  font-size: 2rem;
+}
+.service ul {
+  margin-top: 8px;
+  font-size: 1.5rem;
+}
+.service .ButtonText {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.ButtonText p {
+  margin: 0;
+}
