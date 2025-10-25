@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import AnimatedTitle from "./AnimatedTitle";
 import { ScrollTrigger } from "gsap/all";
-import { skillsData } from "../data";
 import { useGSAP } from "@gsap/react";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -27,6 +26,33 @@ const SkillsSection = () => {
     },
     { id: "tools", label: "Tools & More", color: "from-gray-500 to-slate-600" },
   ];
+
+  const skillsData = {
+    frontend: [
+      { name: "JavaScript (ES6+)", level: 95, icon: "⚡" },
+      { name: "React.js", level: 92, icon: "⚛️" },
+      { name: "Tailwind CSS", level: 90, icon: "💨" },
+    ],
+    backend: [
+      { name: "Node.js & Express", level: 90, icon: "🟢" },
+      { name: "PostgreSQL & MongoDb", level: 90, icon: "🐘" },
+      { name: "RESTful API Design", level: 93, icon: "🔌" },
+      { name: "Authentication & Security", level: 87, icon: "🔐" },
+    ],
+    game: [
+      { name: "C++ (Unreal Engine)", level: 85, icon: "⚙️" },
+      { name: "Unreal Engine 5", level: 88, icon: "🎮" },
+      { name: "Blender", level: 82, icon: "🎭" },
+    ],
+    blockchain: [
+      { name: "Solidity (Smart Contracts)", level: 78, icon: "⛓️" },
+      { name: "Web3.js / Ethers.js", level: 80, icon: "🌐" },
+    ],
+    tools: [
+      { name: "Git & GitHub", level: 95, icon: "📦" },
+      { name: "ERPNext Customization", level: 85, icon: "📋" },
+    ],
+  };
 
   // Get filtered skills
   const getFilteredSkills = () => {
@@ -202,7 +228,7 @@ const SkillsSection = () => {
         <div ref={titleRef}>
           <AnimatedTitle
             title="My Skills"
-            containerClass="text-center uppercase !text-white"
+            containerClass="text-center uppercase text-white"
           />
         </div>
         <p className="mt-6 text-gray-400 text-lg mx-3 md:mx-auto">
@@ -346,20 +372,6 @@ const SkillsSection = () => {
           </div>
         ))}
       </div>
-
-      <style jsx>{`
-        @keyframes shimmer {
-          0% {
-            transform: translateX(-100%);
-          }
-          100% {
-            transform: translateX(100%);
-          }
-        }
-        .animate-shimmer {
-          animation: shimmer 2s infinite;
-        }
-      `}</style>
     </section>
   );
 };

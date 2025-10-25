@@ -388,23 +388,7 @@ const Hero = () => {
         </div>
       </div>
 
-      <style jsx>{`
-        @keyframes float {
-          0%,
-          100% {
-            transform: translateY(0) translateX(0);
-            opacity: 0;
-          }
-          50% {
-            opacity: 0.8;
-          }
-          100% {
-            transform: translateY(-100vh)
-              translateX(${Math.random() * 100 - 50}px);
-            opacity: 0;
-          }
-        }
-      `}</style>
+      
     </section>
   );
 };

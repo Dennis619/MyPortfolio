@@ -6,7 +6,6 @@ import AnimatedTitle from "./AnimatedTitle";
 import { FaExternalLinkAlt, FaGithub } from "react-icons/fa";
 import { BiWorld } from "react-icons/bi";
 import { SiBlockchaindotcom, SiUnrealengine } from "react-icons/si";
-import { projects } from "../data";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -17,6 +16,95 @@ const CATEGORIES = {
   BLOCKCHAIN: "blockchain",
   GAME: "game",
 };
+
+const projects = [
+  {
+    id: 1,
+    title: "JobsCorner.org",
+    category: CATEGORIES.WEB,
+    type: "Job Application Platform",
+    description:
+      "A comprehensive job application platform connecting job seekers with employers. Features include job listings, events listings, career tips and advanced search filters.",
+    technologies: ["React", "Node.js", "PostgreSQL", "Express"],
+    image: "/projects/jobscorner.png", // Add your screenshots to public/projects/
+    liveUrl: "https://jobscorner.org",
+    githubUrl: "", // Optional
+    featured: true, // Featured projects take up more space
+    comingSoon: false,
+  },
+  {
+    id: 2,
+    title: "JS Collection",
+    category: CATEGORIES.WEB,
+    type: "E-Commerce Platform",
+    description:
+      "Modern e-commerce website for selling bags, table mats, and kitchen gloves etc. Built with WhatApp integration, inventory management, and responsive design.",
+    technologies: ["React", "Node.js", "PostgresSQL"],
+    image: "/projects/jscollection.png",
+    liveUrl: "https://jscollection.co.ke",
+    githubUrl: "",
+    featured: false,
+    comingSoon: false,
+  },
+  {
+    id: 3,
+    title: "IGA Accounting Firm",
+    category: CATEGORIES.WEB,
+    type: "Corporate Website",
+    description:
+      "Professional website for an accounting firm featuring service showcases, client testimonials, blog section, and contact forms with modern UI/UX design.",
+    technologies: ["React", "Tailwind CSS", "Node.js"],
+    image: "/projects/iga.png",
+    liveUrl: "https://iga.co.ke",
+    githubUrl: "",
+    featured: false,
+    comingSoon: false,
+  },
+  // Future Blockchain Projects
+  {
+    id: 4,
+    title: "DeFi Dashboard",
+    category: CATEGORIES.BLOCKCHAIN,
+    type: "Blockchain Application",
+    description:
+      "Decentralized finance dashboard for tracking crypto assets, staking rewards, and portfolio management. Built on Ethereum with smart contracts.",
+    technologies: ["React", "Solidity", "Web3.js", "Ethers"],
+    image: "/projects/defi-dashboard.jpg",
+    liveUrl: "",
+    githubUrl: "",
+    featured: false,
+    comingSoon: true, // Shows "Coming Soon" badge
+  },
+  {
+    id: 5,
+    title: "NFT Marketplace",
+    category: CATEGORIES.BLOCKCHAIN,
+    type: "Web3 Platform",
+    description:
+      "Decentralized NFT marketplace for buying, selling, and minting digital assets. Features include auction system, royalty distribution, and wallet integration.",
+    technologies: ["React", "Motoko", "Internet Computer", "Web3"],
+    image: "/projects/nft-marketplace.jpg",
+    liveUrl: "",
+    githubUrl: "",
+    featured: false,
+    comingSoon: true,
+  },
+  // Future Game Projects
+  {
+    id: 6,
+    title: "Epic Adventure",
+    category: CATEGORIES.GAME,
+    type: "3D Action Game",
+    description:
+      "Immersive 3D action-adventure game with stunning environments, character progression, and engaging gameplay mechanics built in Unreal Engine 5.",
+    technologies: ["Unreal Engine 5", "C++", "Blender"],
+    image: "/projects/epic-adventure.png",
+    liveUrl: "",
+    githubUrl: "",
+    featured: false,
+    comingSoon: true,
+  },
+];
 
 const Projects = () => {
   const [activeCategory, setActiveCategory] = useState(CATEGORIES.ALL);

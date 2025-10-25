@@ -6,7 +6,6 @@ import { GoArrowRight } from "react-icons/go";
 import { BsArrowLeft } from "react-icons/bs";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/all";
-import { services } from "../data";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -165,6 +164,44 @@ const Services = () => {
     },
     { dependencies: [clickedIndex] }
   );
+
+  const services = [
+    {
+      title: "Full Stack Web Development",
+      description:
+        "Designing and building scalable, high-performance web applications using modern technologies like React, Node.js, Express, and PostgreSQL. I create responsive, optimized, and maintainable solutions for businesses and startups.",
+    },
+    {
+      title: "UI/UX Design",
+      description:
+        "Crafting user-centered interfaces that balance aesthetics with usability. From wireframes to interactive prototypes, I deliver digital experiences that are visually engaging and easy to navigate.",
+    },
+    {
+      title: "Game Development",
+      description:
+        "Developing immersive games using Unreal Engine 5 and C++. I integrate 3D assets, animations, AI systems, and gameplay mechanics to bring stories and interactive worlds to life.",
+    },
+    {
+      title: "Blockchain & Web3 Integration",
+      description:
+        "Building decentralized apps (DApps) and smart contract systems using Solidity and Motoko. I specialize in integrating blockchain features such as tokenization, voting systems, and group wallets into modern applications.",
+    },
+    {
+      title: "ERPNext Development",
+      description:
+        "Customizing and implementing ERPNext solutions to automate workflows, manage business operations, and integrate modules like accounting, HR, projects, and CRM for enhanced productivity.",
+    },
+    {
+      title: "API Design & Integration",
+      description:
+        "Creating secure and efficient RESTful and GraphQL APIs for seamless communication between front-end and back-end systems, ensuring smooth data exchange and scalability.",
+    },
+    {
+      title: "SEO & Performance Optimization",
+      description:
+        "Enhancing website visibility, accessibility, and speed through technical SEO strategies and performance tuning to achieve higher engagement and better user retention.",
+    },
+  ];
 
   return (
     <section
