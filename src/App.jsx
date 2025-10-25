@@ -13,17 +13,17 @@ function App() {
     <main className="relative min-h-screen w-screen overflow-x-hidden">
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
+        {/* <Route path="/login" element={<Login />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/reset-password/:token" element={<ResetPassword />} />
-        <Route
+        <Route path="/reset-password/:token" element={<ResetPassword />} /> */}
+        {/* <Route
           path="/dashboard"
           element={
             <ProtectedRoute>
               <Dashboard />
             </ProtectedRoute>
           }
-        />
+        /> */}
       </Routes>
     </main>
   );
