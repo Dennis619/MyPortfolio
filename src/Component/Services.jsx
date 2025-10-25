@@ -207,7 +207,7 @@ const Services = () => {
     <section
       id="services"
       ref={sectionRef}
-      className="min-h-screen w-screen flex items-center flex-col bg-gradient-to-b from-black via-gray-900 to-black text-white py-20 px-4 overflow-hidden relative"
+      className="mx-3 md:mx-0 min-h-screen w-screen flex items-center flex-col bg-gradient-to-b from-black via-gray-900 to-black text-white py-20 px-4 overflow-hidden relative"
     >
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -371,4 +371,5 @@ const Services = () => {
 };
 
 export default Services;
+
 
