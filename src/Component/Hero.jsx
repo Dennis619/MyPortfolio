@@ -194,10 +194,12 @@ const Hero = () => {
   });
 
   const imageSrc = homeData[0].imageName
-    ? `/${homeData[0].imageName}`
-    : "/default-image.png";
+    ? `${import.meta.env.BASE_URL}${homeData[0].imageName}`
+    : `${import.meta.env.BASE_URL}default-image.png`;
 
-  const resumeDoc = homeData[0].docName ? `/${homeData[0].docName}` : null;
+  const resumeDoc = homeData[0].docName
+    ? `${import.meta.env.BASE_URL}${homeData[0].docName}`
+    : null;
 
   const handleResumeDownload = () => {
     if (!resumeDoc) {
@@ -347,7 +349,7 @@ const Hero = () => {
           <img
             ref={blobRef}
             className="absolute w-[90%] md:w-[85%] lg:w-[75%] object-contain z-0 opacity-80"
-            src="/blob.png"
+            src={`${import.meta.env.BASE_URL}blob.png`}
             alt="Background blob"
           />
 
