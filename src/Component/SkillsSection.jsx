@@ -1,17 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
-import gsap from "gsap";
-import AnimatedTitle from "./AnimatedTitle";
-import { ScrollTrigger } from "gsap/all";
-import { useGSAP } from "@gsap/react";
+import React, { useState } from "react";
 
-gsap.registerPlugin(ScrollTrigger);
+const AnimatedTitle = ({ title, containerClass }) => (
+  <h2 className={containerClass}>{title}</h2>
+);
 
 const SkillsSection = () => {
-  const sectionRef = useRef(null);
-  const titleRef = useRef(null);
-  const subtitleRef = useRef(null);
-  const categoryRefs = useRef([]);
-  const skillRefs = useRef([]);
   const [activeCategory, setActiveCategory] = useState("all");
 
   const categories = [
@@ -35,7 +28,7 @@ const SkillsSection = () => {
     ],
     backend: [
       { name: "Node.js & Express", level: 90, icon: "🟢" },
-      { name: "PostgreSQL & MongoDb", level: 90, icon: "🐘" },
+      { name: "PostgreSQL & MongoDB", level: 90, icon: "🐘" },
       { name: "RESTful API Design", level: 93, icon: "🔌" },
       { name: "Authentication & Security", level: 87, icon: "🔐" },
     ],
@@ -69,182 +62,43 @@ const SkillsSection = () => {
 
   const filteredSkills = getFilteredSkills();
 
-  // Background color change animation
-  useGSAP(() => {
-    const section = sectionRef.current;
-
-    ScrollTrigger.create({
-      trigger: section,
-      start: "top center",
-      end: "bottom top",
-      onEnter: () => {
-        gsap.to("body", {
-          backgroundColor: "#0f172a",
-          duration: 0.5,
-          ease: "power2.out",
-        });
-      },
-      onLeaveBack: () => {
-        gsap.to("body", {
-          backgroundColor: "#000000",
-          duration: 0.5,
-          ease: "power2.inOut",
-        });
-      },
-    });
-  }, []);
-
-  // Initial entrance animations
-  useGSAP(
-    () => {
-      // Subtitle animation
-      gsap.fromTo(
-        subtitleRef.current,
-        { opacity: 0, y: -30 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top 60%",
-            toggleActions: "play none none reverse",
-          },
-        }
-      );
-
-      // Title animation
-      gsap.fromTo(
-        titleRef.current,
-        { opacity: 0, scale: 0.8 },
-        {
-          opacity: 1,
-          scale: 1,
-          duration: 1,
-          delay: 0.2,
-          ease: "back.out(1.4)",
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top 60%",
-            toggleActions: "play none none reverse",
-          },
-        }
-      );
-
-      // Categories animation
-      gsap.fromTo(
-        categoryRefs.current,
-        { opacity: 0, y: 30 },
-        {
-          opacity: 1,
-          y: 0,
-          stagger: 0.1,
-          duration: 0.6,
-          delay: 0.5,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top 50%",
-            toggleActions: "play none none reverse",
-          },
-        }
-      );
-
-      // Skills animation
-      gsap.fromTo(
-        skillRefs.current,
-        { opacity: 0, x: -50, scale: 0.9 },
-        {
-          opacity: 1,
-          x: 0,
-          scale: 1,
-          stagger: 0.05,
-          duration: 0.6,
-          delay: 0.8,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top 40%",
-            toggleActions: "play none none reverse",
-          },
-        }
-      );
-    },
-    { scope: sectionRef } // ✅ Scoped animations for auto-cleanup
-  );
-
-  // Category change animation
-  const handleCategoryChange = (categoryId) => {
-    if (categoryId === activeCategory) return;
-
-    const tl = gsap.timeline();
-
-    tl.to(skillRefs.current, {
-      opacity: 0,
-      x: -30,
-      stagger: 0.02,
-      duration: 0.3,
-      ease: "power2.in",
-    })
-      .call(() => setActiveCategory(categoryId))
-      .fromTo(
-        skillRefs.current,
-        { opacity: 0, x: 30 },
-        {
-          opacity: 1,
-          x: 0,
-          stagger: 0.03,
-          duration: 0.4,
-          ease: "power2.out",
-        }
-      );
-  };
-
   return (
     <section
       id="skills"
-      ref={sectionRef}
-      className="min-h-screen w-screen py-20 px-4 flex flex-col items-center justify-center bg-gradient-to-b from-slate-900 via-gray-900 to-black relative overflow-hidden"
+      className="min-h-screen w-full py-12 md:py-20 px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-center bg-gradient-to-b from-slate-900 via-gray-900 to-black relative overflow-hidden"
     >
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 left-10 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute top-10 md:top-20 left-4 md:left-10 w-64 h-64 md:w-96 md:h-96 bg-blue-500/5 rounded-full blur-3xl animate-pulse"></div>
         <div
-          className="absolute bottom-20 right-10 w-80 h-80 bg-purple-500/5 rounded-full blur-3xl animate-pulse"
+          className="absolute bottom-10 md:bottom-20 right-4 md:right-10 w-56 h-56 md:w-80 md:h-80 bg-purple-500/5 rounded-full blur-3xl animate-pulse"
           style={{ animationDelay: "1.5s" }}
         ></div>
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-blue-500/5 to-purple-500/5 rounded-full blur-3xl"></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] md:w-[600px] md:h-[600px] bg-gradient-to-r from-blue-500/5 to-purple-500/5 rounded-full blur-3xl"></div>
       </div>
 
       {/* Header */}
-      <div className="relative z-10 text-center mb-16 max-w-4xl">
-        <p
-          ref={subtitleRef}
-          className="text-blue-400 uppercase tracking-widest text-sm mb-4 font-semibold"
-        >
+      <div className="relative z-10 text-center mb-12 md:mb-16 max-w-4xl px-4">
+        <p className="text-blue-400 uppercase tracking-widest text-xs sm:text-sm mb-3 md:mb-4 font-semibold">
           Technical Expertise
         </p>
-        <div ref={titleRef}>
-          <AnimatedTitle
-            title="My Skills"
-            containerClass="text-center uppercase text-white"
-          />
-        </div>
-        <p className="mt-6 text-gray-400 text-lg mx-3 md:mx-auto">
+        <AnimatedTitle
+          title="My Skills"
+          containerClass="text-center uppercase text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold"
+        />
+        <p className="mt-4 md:mt-6 text-gray-400 text-sm sm:text-base md:text-lg max-w-2xl mx-auto">
           A comprehensive overview of my technical skills and proficiency levels
           across different domains
         </p>
       </div>
 
       {/* Category Filters */}
-      <div className="relative z-10 flex flex-wrap justify-center gap-3 mb-12">
-        {categories.map((category, index) => (
+      <div className="relative z-10 flex flex-wrap justify-center gap-2 sm:gap-3 mb-8 md:mb-12 px-4 max-w-5xl">
+        {categories.map((category) => (
           <button
             key={category.id}
-            ref={(el) => (categoryRefs.current[index] = el)}
-            onClick={() => handleCategoryChange(category.id)}
-            className={`group relative px-6 py-3 rounded-full font-semibold transition-all duration-300 overflow-hidden ${
+            onClick={() => setActiveCategory(category.id)}
+            className={`group relative px-4 sm:px-5 md:px-6 py-2 sm:py-2.5 md:py-3 rounded-full text-sm sm:text-base font-semibold transition-all duration-300 overflow-hidden ${
               activeCategory === category.id
                 ? "text-white scale-105"
                 : "text-gray-400 hover:text-white"
@@ -284,29 +138,31 @@ const SkillsSection = () => {
       </div>
 
       {/* Skills Grid */}
-      <div className="relative z-10 w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="relative z-10 w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5 md:gap-6 px-4">
         {filteredSkills.map((skill, index) => (
           <div
             key={`${skill.category}-${skill.name}`}
-            ref={(el) => (skillRefs.current[index] = el)}
-            className="group"
+            className="group animate-fadeIn"
+            style={{ animationDelay: `${index * 50}ms` }}
           >
-            <div className="bg-gray-800/30 backdrop-blur-sm border border-gray-700/50 rounded-xl p-6 hover:border-blue-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/10">
+            <div className="bg-gray-800/30 backdrop-blur-sm border border-gray-700/50 rounded-xl p-4 sm:p-5 md:p-6 hover:border-blue-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/10">
               {/* Skill Header */}
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-3">
-                  <span className="text-3xl">{skill.icon}</span>
-                  <h3 className="text-white font-semibold text-lg">
+              <div className="flex items-center justify-between mb-3 sm:mb-4">
+                <div className="flex items-center gap-2 sm:gap-3 flex-1 min-w-0">
+                  <span className="text-2xl sm:text-3xl flex-shrink-0">
+                    {skill.icon}
+                  </span>
+                  <h3 className="text-white font-semibold text-sm sm:text-base md:text-lg truncate">
                     {skill.name}
                   </h3>
                 </div>
-                <span className="text-blue-400 font-bold text-xl">
+                <span className="text-blue-400 font-bold text-lg sm:text-xl flex-shrink-0 ml-2">
                   {skill.level}%
                 </span>
               </div>
 
               {/* Progress Bar */}
-              <div className="relative h-3 bg-gray-700/50 rounded-full overflow-hidden">
+              <div className="relative h-2.5 sm:h-3 bg-gray-700/50 rounded-full overflow-hidden">
                 <div
                   className="absolute inset-y-0 left-0 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full transition-all duration-1000 ease-out"
                   style={{
@@ -330,7 +186,7 @@ const SkillsSection = () => {
       </div>
 
       {/* Stats Summary */}
-      <div className="relative z-10 mt-16 grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl w-full">
+      <div className="relative z-10 mt-12 md:mt-16 grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 md:gap-6 max-w-4xl w-full px-4">
         {[
           {
             label: "Total Skills",
@@ -362,16 +218,46 @@ const SkillsSection = () => {
         ].map((stat, index) => (
           <div
             key={index}
-            className="bg-gray-800/30 backdrop-blur-sm border border-gray-700/50 rounded-xl p-6 text-center hover:border-blue-500/50 transition-all duration-300 hover:scale-105"
+            className="bg-gray-800/30 backdrop-blur-sm border border-gray-700/50 rounded-xl p-4 sm:p-5 md:p-6 text-center hover:border-blue-500/50 transition-all duration-300 hover:scale-105"
           >
-            <div className="text-4xl mb-2">{stat.icon}</div>
-            <div className="text-3xl font-bold text-white mb-1">
+            <div className="text-3xl sm:text-4xl mb-2">{stat.icon}</div>
+            <div className="text-2xl sm:text-3xl font-bold text-white mb-1">
               {stat.value}
             </div>
-            <div className="text-gray-400 text-sm">{stat.label}</div>
+            <div className="text-gray-400 text-xs sm:text-sm">{stat.label}</div>
           </div>
         ))}
       </div>
+
+      <style jsx>{`
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: translateX(-20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+
+        @keyframes shimmer {
+          0% {
+            transform: translateX(-100%);
+          }
+          100% {
+            transform: translateX(100%);
+          }
+        }
+
+        .animate-fadeIn {
+          animation: fadeIn 0.5s ease-out forwards;
+        }
+
+        .animate-shimmer {
+          animation: shimmer 2s infinite;
+        }
+      `}</style>
     </section>
   );
 };

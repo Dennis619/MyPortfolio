@@ -1,169 +1,18 @@
-import React, { useState, useRef, useEffect } from "react";
-import gsap from "gsap";
-import AnimatedTitle from "./AnimatedTitle";
-import Button from "./Button";
+import React, { useState, useRef } from "react";
 import { GoArrowRight } from "react-icons/go";
 import { BsArrowLeft } from "react-icons/bs";
-import { useGSAP } from "@gsap/react";
-import { ScrollTrigger } from "gsap/all";
 
-gsap.registerPlugin(ScrollTrigger);
+const AnimatedTitle = ({ title, containerClass }) => (
+  <h2 className={containerClass}>{title}</h2>
+);
 
 const Services = () => {
   const [clickedIndex, setClickedIndex] = useState(null);
-  const sectionRef = useRef(null);
   const cardsRef = useRef([]);
-  const titleRef = useRef(null);
-  const subtitleRef = useRef(null);
 
   const handleDiscoverButtonClick = (index) => {
     setClickedIndex((prev) => (prev === index ? null : index));
   };
-
-  // Initial cards animation on scroll
-  useGSAP(() => {
-    // Clip path animation for section
-    // gsap.set("#services", {
-    //   clipPath: "polygon(14% 0%, 72% 0%, 90% 90%, 0% 100%)",
-    //   borderRadius: "0 0 40% 10%",
-    // });
-
-    // gsap.from("#services", {
-    //   clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
-    //   borderRadius: "0 0 0 0",
-    //   ease: "power1.inOut",
-    //   scrollTrigger: {
-    //     trigger: "#services",
-    //     start: "center center",
-    //     end: "bottom center",
-    //     scrub: true,
-    //   },
-    // });
-
-    // Stagger animation for cards
-    gsap.fromTo(
-      cardsRef.current,
-      {
-        opacity: 0,
-        y: 100,
-        scale: 0.9,
-      },
-      {
-        opacity: 1,
-        y: 0,
-        scale: 1,
-        stagger: 0.15,
-        duration: 0.8,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: ".services-grid",
-          start: "top 80%",
-          end: "top 20%",
-          toggleActions: "play none none reverse",
-        },
-      }
-    );
-
-    // Title animation
-    gsap.fromTo(
-      titleRef.current,
-      { opacity: 0, y: -50 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 1,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: "#services",
-          start: "top 60%",
-          toggleActions: "play none none reverse",
-        },
-      }
-    );
-
-    // Subtitle animation
-    gsap.fromTo(
-      subtitleRef.current,
-      { opacity: 0, y: -30 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        delay: 0.2,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: "#services",
-          start: "top 60%",
-          toggleActions: "play none none reverse",
-        },
-      }
-    );
-  }, []);
-
-  // Expand/collapse animation
-  useGSAP(
-    () => {
-      if (clickedIndex !== null) {
-        const card = cardsRef.current[clickedIndex];
-        const tl = gsap.timeline({ defaults: { ease: "power3.inOut" } });
-
-        // Collapse other cards
-        cardsRef.current.forEach((otherCard, i) => {
-          if (i !== clickedIndex && otherCard) {
-            gsap.to(otherCard, {
-              opacity: 0.4,
-              scale: 0.95,
-              duration: 0.3,
-            });
-          }
-        });
-
-        // Expand selected card
-        tl.to(card, {
-          scale: 1.02,
-          duration: 0.4,
-        })
-          .to(
-            card.querySelector(".service-content"),
-            {
-              height: "auto",
-              opacity: 1,
-              duration: 0.5,
-              ease: "power2.out",
-            },
-            "-=0.2"
-          )
-          .fromTo(
-            card.querySelectorAll(".service-details > *"),
-            { opacity: 0, y: 20 },
-            {
-              opacity: 1,
-              y: 0,
-              stagger: 0.1,
-              duration: 0.4,
-            },
-            "-=0.3"
-          );
-      } else {
-        // Reset all cards
-        cardsRef.current.forEach((card) => {
-          if (card) {
-            gsap.to(card, {
-              opacity: 1,
-              scale: 1,
-              duration: 0.3,
-            });
-            gsap.to(card.querySelector(".service-content"), {
-              height: 0,
-              opacity: 0,
-              duration: 0.3,
-            });
-          }
-        });
-      }
-    },
-    { dependencies: [clickedIndex] }
-  );
 
   const services = [
     {
@@ -206,47 +55,41 @@ const Services = () => {
   return (
     <section
       id="services"
-      ref={sectionRef}
-      className="mx-3 md:mx-0 min-h-screen w-screen flex items-center flex-col bg-gradient-to-b from-black via-gray-900 to-black text-white py-20 px-4 overflow-hidden relative"
+      className="min-h-screen w-full flex items-center flex-col bg-gradient-to-b from-black via-gray-900 to-black text-white py-12 md:py-20 px-4 sm:px-6 lg:px-8 overflow-hidden relative"
     >
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute top-20 left-4 md:left-10 w-48 h-48 md:w-72 md:h-72 bg-blue-500/10 rounded-full blur-3xl animate-pulse"></div>
         <div
-          className="absolute bottom-20 right-10 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse"
+          className="absolute bottom-20 right-4 md:right-10 w-64 h-64 md:w-96 md:h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse"
           style={{ animationDelay: "1s" }}
         ></div>
       </div>
 
       {/* Header */}
-      <div className="relative z-10 mb-16 text-center max-w-4xl">
-        <p
-          ref={subtitleRef}
-          className="text-blue-400 uppercase tracking-widest text-sm mb-4 font-semibold"
-        >
+      <div className="relative z-10 mb-12 md:mb-16 text-center w-full max-w-4xl px-4">
+        <p className="text-blue-400 uppercase tracking-widest text-xs sm:text-sm mb-3 md:mb-4 font-semibold">
           What I Offer
         </p>
-        <div ref={titleRef}>
-          <AnimatedTitle
-            title="Services"
-            containerClass="text-center uppercase text-3xl md:text-5xl"
-          />
-        </div>
-        <p className="mt-6 text-gray-400 text-lg max-w-2xl mx-3 md:mx-auto">
+        <AnimatedTitle
+          title="Services"
+          containerClass="text-center uppercase text-3xl sm:text-4xl md:text-5xl font-bold"
+        />
+        <p className="mt-4 md:mt-6 text-gray-400 text-base md:text-lg max-w-2xl mx-auto px-2">
           Comprehensive solutions tailored to bring your vision to life with
           cutting-edge technology and creative expertise
         </p>
       </div>
 
       {/* Services Grid */}
-      <div className="services-grid relative z-10 w-full max-w-7xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-4">
+      <div className="services-grid relative z-10 w-full max-w-7xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 px-4">
         {services.map((service, index) => (
           <div
             key={index}
             ref={(el) => (cardsRef.current[index] = el)}
-            className={`service-card group relative bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl border-2 overflow-hidden transition-all duration-500 cursor-pointer ${
+            className={`service-card group relative bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl md:rounded-2xl border-2 overflow-hidden transition-all duration-300 cursor-pointer ${
               clickedIndex === index
-                ? "border-blue-500 shadow-2xl shadow-blue-500/50 md:col-span-2 lg:col-span-3"
+                ? "border-blue-500 shadow-2xl shadow-blue-500/50 col-span-1 md:col-span-2 lg:col-span-3"
                 : "border-gray-700 hover:border-gray-600"
             }`}
             onClick={() => handleDiscoverButtonClick(index)}
@@ -255,30 +98,30 @@ const Services = () => {
             <div className="absolute inset-0 bg-gradient-to-br from-blue-500/0 to-purple-500/0 group-hover:from-blue-500/10 group-hover:to-purple-500/10 transition-all duration-500"></div>
 
             {/* Number badge */}
-            <div className="absolute top-4 right-4 w-12 h-12 bg-blue-500/20 backdrop-blur-sm rounded-full flex items-center justify-center border border-blue-500/30">
-              <span className="text-blue-400 font-bold text-lg">
+            <div className="absolute top-3 right-3 md:top-4 md:right-4 w-10 h-10 md:w-12 md:h-12 bg-blue-500/20 backdrop-blur-sm rounded-full flex items-center justify-center border border-blue-500/30">
+              <span className="text-blue-400 font-bold text-base md:text-lg">
                 {String(index + 1).padStart(2, "0")}
               </span>
             </div>
 
             {/* Card content */}
-            <div className="relative p-6">
+            <div className="relative p-4 sm:p-5 md:p-6">
               {/* Title section */}
-              <div className="flex items-start justify-between mb-4">
-                <h3 className="text-xl md:text-2xl font-bold text-white pr-16 leading-tight group-hover:text-blue-400 transition-colors duration-300">
+              <div className="flex items-start justify-between mb-3 md:mb-4">
+                <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-white pr-12 sm:pr-14 md:pr-16 leading-tight group-hover:text-blue-400 transition-colors duration-300">
                   {service.title}
                 </h3>
               </div>
 
               {/* Brief description (always visible) */}
-              <p className="text-gray-400 text-sm line-clamp-2 mb-4">
+              <p className="text-gray-400 text-xs sm:text-sm line-clamp-2 mb-3 md:mb-4">
                 {service.description.substring(0, 100)}...
               </p>
 
               {/* Discover button */}
               <div className="flex justify-end">
                 <button
-                  className={`flex items-center gap-2 px-4 py-2 rounded-full font-semibold transition-all duration-300 ${
+                  className={`flex items-center gap-2 px-3 py-2 md:px-4 md:py-2 rounded-full text-sm md:text-base font-semibold transition-all duration-300 ${
                     clickedIndex === index
                       ? "bg-blue-500 text-white"
                       : "bg-white/10 text-white hover:bg-white/20"
@@ -291,85 +134,88 @@ const Services = () => {
                   {clickedIndex === index ? (
                     <>
                       <span>Close</span>
-                      <BsArrowLeft size={20} />
+                      <BsArrowLeft size={18} className="md:w-5 md:h-5" />
                     </>
                   ) : (
                     <>
                       <span>Discover</span>
-                      <GoArrowRight size={20} />
+                      <GoArrowRight size={18} className="md:w-5 md:h-5" />
                     </>
                   )}
                 </button>
               </div>
 
               {/* Expanded content */}
-              <div
-                className="service-content overflow-hidden"
-                style={{ height: 0, opacity: 0 }}
-              >
-                <div className="service-details pt-6 mt-6 border-t border-gray-700">
-                  {/* Full description */}
-                  <div className="mb-6">
-                    <h4 className="text-lg font-semibold text-blue-400 mb-3">
-                      Overview
-                    </h4>
-                    <p className="text-gray-300 leading-relaxed">
-                      {service.description}
-                    </p>
-                  </div>
+              {clickedIndex === index && (
+                <div className="service-content mt-4 md:mt-6 pt-4 md:pt-6 border-t border-gray-700 animate-fadeIn">
+                  <div className="service-details">
+                    {/* Full description */}
+                    <div className="mb-4 md:mb-6">
+                      <h4 className="text-base md:text-lg font-semibold text-blue-400 mb-2 md:mb-3">
+                        Overview
+                      </h4>
+                      <p className="text-gray-300 text-sm md:text-base leading-relaxed">
+                        {service.description}
+                      </p>
+                    </div>
 
-                  {/* Key features */}
-                  <div className="mb-6">
-                    <h4 className="text-lg font-semibold text-blue-400 mb-3">
-                      Key Features
-                    </h4>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                      {[
-                        "High Performance",
-                        "Scalable Architecture",
-                        "Modern Technologies",
-                        "Best Practices",
-                      ].map((feature, i) => (
-                        <div
-                          key={i}
-                          className="flex items-center gap-2 text-gray-300"
-                        >
-                          <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                          <span>{feature}</span>
-                        </div>
-                      ))}
+                    {/* Key features */}
+                    <div className="mb-4 md:mb-6">
+                      <h4 className="text-base md:text-lg font-semibold text-blue-400 mb-2 md:mb-3">
+                        Key Features
+                      </h4>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 md:gap-3">
+                        {[
+                          "High Performance",
+                          "Scalable Architecture",
+                          "Modern Technologies",
+                          "Best Practices",
+                        ].map((feature, i) => (
+                          <div
+                            key={i}
+                            className="flex items-center gap-2 text-gray-300 text-sm md:text-base"
+                          >
+                            <div className="w-2 h-2 bg-blue-500 rounded-full flex-shrink-0"></div>
+                            <span>{feature}</span>
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   </div>
-
-                  {/* CTA */}
-                  {/* <div className="flex gap-4">
-                    <button className="flex-1 bg-gradient-to-r from-blue-500 to-purple-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg hover:shadow-blue-500/50 transition-all duration-300">
-                      Get Started
-                    </button>
-                    <button className="flex-1 bg-white/10 text-white py-3 rounded-lg font-semibold hover:bg-white/20 transition-all duration-300">
-                      Learn More
-                    </button>
-                  </div> */}
                 </div>
-              </div>
+              )}
             </div>
 
             {/* Animated border gradient */}
-            <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
-              <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 opacity-20 blur-xl"></div>
+            <div className="absolute inset-0 rounded-xl md:rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
+              <div className="absolute inset-0 rounded-xl md:rounded-2xl bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 opacity-20 blur-xl"></div>
             </div>
           </div>
         ))}
       </div>
 
       {/* Bottom decoration */}
-      <div className="mt-20 text-center text-gray-500 text-sm">
+      <div className="mt-12 md:mt-20 text-center text-gray-500 text-xs md:text-sm">
         <p>Scroll to explore more services</p>
       </div>
+
+      <style jsx>{`
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        .animate-fadeIn {
+          animation: fadeIn 0.3s ease-out;
+        }
+      `}</style>
     </section>
   );
 };
 
 export default Services;
-
-
